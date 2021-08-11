@@ -66,12 +66,18 @@ class Command(BaseCommand):
 
             soup = BeautifulSoup(html_doc, 'html.parser')
 
-            mydivs = soup.find_all("div", {"class": "field-item even last"})
-            for quote_div in mydivs:
+            articles = soup.find_all("article")
+            for article in articles:
+
+                quote_div = article.find("div", {"class": "field-item even last"})
                 paragraph = quote_div.find('p')
-                if paragraph:
-                    text = paragraph.get_text()
-                    quote = Quote(text=text, source=source)
-                    quote.save()
-                    print(text)
+                text = paragraph.get_text()
+                print(text)
+
+                rating_div = article.find("div", {"class": "rating__value__digits"})
+                rating = int(rating_div.get_text())
+                print(rating)
+
+                quote = Quote(text=text, source=source, rating=rating)
+                quote.save()
             break

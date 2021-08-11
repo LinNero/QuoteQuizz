@@ -14,7 +14,8 @@ class SourceAdmin(admin.ModelAdmin):
 
 
 class QuoteAdmin(admin.ModelAdmin):
-    list_display = ['text', 'source']
+    list_display = ['text', 'source', 'rating']
+    list_filter = ['source']
 
 
 

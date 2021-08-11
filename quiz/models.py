@@ -21,6 +21,7 @@ class Source(models.Model):
 class Quote(models.Model):
     text = models.TextField()
     source = models.ForeignKey(Source, on_delete=models.CASCADE)
+    rating = models.IntegerField()
 
 
 class QuestionSet(models.Model):
