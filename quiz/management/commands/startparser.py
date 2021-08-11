@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 from bs4 import BeautifulSoup
 import urllib.request
 from quiz.models import Category, Source, Quote
+import time
 
 
 class Command(BaseCommand):
@@ -80,4 +81,12 @@ class Command(BaseCommand):
 
                 quote = Quote(text=text, source=source, rating=rating)
                 quote.save()
-            break
+
+            print("Sleeping for 1 second...")
+            time.sleep(1)
+
+            q_count = Quote.objects.count()
+            print(f"Quotes count: {q_count}")
+            if Quote.objects.count() >= 100:
+                break
+            # break

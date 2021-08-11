@@ -11,7 +11,7 @@ class Category(models.Model):
 
 class Source(models.Model):
     name = models.CharField(max_length=255)
-    category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category_id = models.ForeignKey(Category, on_delete=models.CASCADE, related_name = "sources")
     url = models.CharField(max_length=255)
 
     def __str__(self):
@@ -20,13 +20,18 @@ class Source(models.Model):
 
 class Quote(models.Model):
     text = models.TextField()
-    source = models.ForeignKey(Source, on_delete=models.CASCADE)
+    source = models.ForeignKey(Source, on_delete=models.CASCADE, related_name="quotes")
     rating = models.IntegerField()
 
+    def __str__(self):
+        return f"{self.rating}: {self.text}"
 
 class QuestionSet(models.Model):
-    category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category_id = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="question_sets")
     name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 
 class Question(models.Model):
@@ -35,7 +40,8 @@ class Question(models.Model):
     source_2_id = models.ForeignKey(Source, on_delete=models.CASCADE, related_name='source_2')
     source_3_id = models.ForeignKey(Source, on_delete=models.CASCADE, related_name='source_3')
     source_4_id = models.ForeignKey(Source, on_delete=models.CASCADE, related_name='source_4')
-    question_set_id = models.ForeignKey(QuestionSet, on_delete=models.CASCADE)
+    question_set_id = models.ForeignKey(QuestionSet, on_delete=models.CASCADE, related_name='questions')
 
-
+    def __str__(self):
+        return self.quote_id.text[:50]
 
