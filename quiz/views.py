@@ -57,7 +57,3 @@ def category(request, id):
     question_sets = QuestionSet.objects.filter(category_id=id)
     return render(request=request, template_name="quiz/category.html", context={"question_sets": question_sets})
 
-
-def category(request, id):
-    question_sets = QuestionSet.objects.filter(category_id=id)
-    return render(request=request, template_name="quiz/category.html", context={"question_sets": question_sets})
