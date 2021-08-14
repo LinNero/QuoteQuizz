@@ -1,0 +1,19 @@
+{% extends "quiz/header.html" %}
+
+{% block content %}
+
+<div style="max-width: 550px; padding-left: 200px">
+    <h1 style="margin-bottom: 50px">Откуда цитата?</h1>
+    <div style="margin-bottom: 50px">{{question}}</div>
+    <br>
+    <script>
+        correct_answer = {{question.source_1_id.id}}
+    </script>
+    <div class="col" style="margin-bottom: 25px"><div><button type="button" class="btn btn-light" value="{{question.source_1_id.id}}">{{question.source_1_id}}</button></div></div>
+    <div class="col" style="margin-bottom: 25px"><div><button type="button" class="btn btn-light" value="{{question.source_2_id.id}}">{{question.source_2_id}}</button></div></div>
+    <div class="col" style="margin-bottom: 25px"><div><button type="button" class="btn btn-light" value="{{question.source_3_id.id}}">{{question.source_3_id}}</button></div></div>
+    <div class="col" style="margin-bottom: 25px"><div><button type="button" class="btn btn-light" value="{{question.source_4_id.id}}">{{question.source_4_id}}</button></div></div>
+    <div id="message"></div>
+</div>
+
+{% endblock %}

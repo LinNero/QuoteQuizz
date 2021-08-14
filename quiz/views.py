@@ -6,8 +6,9 @@ from .forms import NewUserForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+import random
 
-from .models import Category, QuestionSet
+from .models import Category, QuestionSet, Question
 
 
 def homepage(request):
@@ -53,7 +54,18 @@ def logout_request(request):
     return redirect("quiz:homepage")
 
 
-def category(request, id):
+def show_category(request, id):
+    # category = Category.objects.filter(id=id)
     question_sets = QuestionSet.objects.filter(category_id=id)
-    return render(request=request, template_name="quiz/category.html", context={"question_sets": question_sets})
+    return render(request=request, template_name="quiz/category.html", context={"question_sets": question_sets, "category_id": id})
 
+
+def category_next_question(request, id):
+    category = Category.objects.get(pk=id)
+    question_list = []
+
+    for qs in category.question_sets.all():
+        question_list += qs.questions.values_list('pk')
+
+    question = Question.objects.get(pk=random.choice(question_list)[0])
+    return render(request=request, template_name="quiz/question.html", context={"question": question, "category": category})

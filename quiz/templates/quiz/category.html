@@ -1,11 +1,14 @@
 {% extends "quiz/header.html" %}
 
 {% block content %}
-    Выберите пакет для игры.
+    <a href="/quiz/category/{{category_id}}/next">Играть вопросы из этой категории.</a>
 
-    {% for question_set in question_sets %}
-        <div>
-            <a href="/quiz/question_set/{{question_set.id}}">{{question_set.name}}</a>
-        </div>
-    {% endfor %}
+
+<!--    Выберите пакет для игры.-->
+
+<!--    {% for question_set in question_sets %}-->
+<!--        <div>-->
+<!--            <a href="/quiz/question_set/{{question_set.id}}">{{question_set.name}}</a>-->
+<!--        </div>-->
+<!--    {% endfor %}-->
 {% endblock %}

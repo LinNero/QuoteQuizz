@@ -43,5 +43,5 @@ class Question(models.Model):
     question_set_id = models.ForeignKey(QuestionSet, on_delete=models.CASCADE, related_name='questions')
 
     def __str__(self):
-        return self.quote_id.text[:50]
+        return self.quote_id.text[:500]
 
