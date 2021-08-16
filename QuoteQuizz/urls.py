@@ -19,6 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('', include('quiz.urls')),
     path('admin/', admin.site.urls),
     path('quiz/', include('quiz.urls')),
 ]
