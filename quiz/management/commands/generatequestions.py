@@ -1,5 +1,5 @@
-from django.core.management.base import BaseCommand, CommandError
-from quiz.models import Category, Source, Quote, Question, QuestionSet
+from django.core.management.base import BaseCommand
+from quiz.models import Category, Question, QuestionSet
 from random import choice
 
 
@@ -29,12 +29,12 @@ class Command(BaseCommand):
                         question_set = QuestionSet(category_id=category, name="Question Set")
                         question_set.save()
 
-                    q = Question(quote_id = quote,
-                                 question_set_id = question_set,
-                                 source_1_id = source,
-                                 source_2_id = self.get_random_object(category.sources),
-                                 source_3_id = self.get_random_object(category.sources),
-                                 source_4_id = self.get_random_object(category.sources),
+                    q = Question(quote_id=quote,
+                                 question_set_id=question_set,
+                                 source_1_id=source,
+                                 source_2_id=self.get_random_object(category.sources),
+                                 source_3_id=self.get_random_object(category.sources),
+                                 source_4_id=self.get_random_object(category.sources),
                                  )
                     q.save()
 

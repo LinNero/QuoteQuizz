@@ -1,4 +1,4 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from bs4 import BeautifulSoup
 import urllib.request
 from quiz.models import Category, Source, Quote

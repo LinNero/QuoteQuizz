@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+import random
 
 # Create your models here.
 class Category(models.Model):
@@ -11,7 +11,7 @@ class Category(models.Model):
 
 class Source(models.Model):
     name = models.CharField(max_length=255)
-    category_id = models.ForeignKey(Category, on_delete=models.CASCADE, related_name = "sources")
+    category_id = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="sources")
     url = models.CharField(max_length=255)
 
     def __str__(self):
@@ -44,4 +44,9 @@ class Question(models.Model):
 
     def __str__(self):
         return self.quote_id.text[:500]
+
+    def get_randomized_source_list(self):
+        result = [self.source_1_id, self.source_2_id, self.source_3_id, self.source_4_id]
+        random.shuffle(result)
+        return result
 
