@@ -12,7 +12,7 @@ from .models import Category, QuestionSet, Question
 
 
 def homepage(request):
-    categories = Category.objects.all()
+    categories = Category.objects.order_by('id').all()
     return render(request=request, template_name="quiz/homepage.html", context={'categories': categories})
 
 

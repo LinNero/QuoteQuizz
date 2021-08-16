@@ -1,13 +1,16 @@
 from django.db import models
 import random
 
+
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=255)
     url = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='images/')
 
     def __str__(self):
         return self.name
+
 
 class Source(models.Model):
     name = models.CharField(max_length=255)
