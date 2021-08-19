@@ -11,7 +11,6 @@ class Command(BaseCommand):
         random_pk = choice(pks)
         return queryset.get(pk=random_pk)
 
-
     def handle(self, *args, **options):
         for category in Category.objects.all():
             if not category.sources.exists():
@@ -29,14 +28,21 @@ class Command(BaseCommand):
                         question_set = QuestionSet(category_id=category, name="Question Set")
                         question_set.save()
 
+                    answers = {source.id,
+                               self.get_random_object(category.sources).id,
+                               self.get_random_object(category.sources).id,
+                               self.get_random_object(category.sources).id
+                               }
+
+                    while len(answers) < 4:  # цикл для несовпадения ответов
+                        answers.add(self.get_random_object(category.sources).id)
+                    answers = list(answers)
+
                     q = Question(quote_id=quote,
                                  question_set_id=question_set,
-                                 source_1_id=source,
-                                 source_2_id=self.get_random_object(category.sources),
-                                 source_3_id=self.get_random_object(category.sources),
-                                 source_4_id=self.get_random_object(category.sources),
+                                 source_1_id=category.sources.get(pk=answers[0]),
+                                 source_2_id=category.sources.get(pk=answers[1]),
+                                 source_3_id=category.sources.get(pk=answers[2]),
+                                 source_4_id=category.sources.get(pk=answers[3]),
                                  )
                     q.save()
-
-
-
