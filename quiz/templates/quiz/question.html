@@ -2,6 +2,25 @@
 
 {% block content %}
 
+<link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+<style>
+    #progressbar_container {
+      margin: 20px;
+      width: 200px;
+      height: 200px;
+      position: relative;
+      font-size: 10px;
+    }
+
+    .nexthref {
+        color: #000;
+        text-decoration: none;
+    }
+    .nexthref:hover {
+        color: #000;
+    }
+</style>
+
 <div style="max-width: 550px; padding-left: 200px">
     <h1 style="margin-bottom: 50px">Откуда цитата?</h1>
     <div style="margin-bottom: 50px">{{question}}</div>
@@ -15,6 +34,7 @@
 <!--    <div class="col" style="margin-bottom: 25px"><div><button type="button" class="btn btn-light" value="{{question.source_2_id.id}}">{{question.source_2_id}}</button></div></div>-->
 <!--    <div class="col" style="margin-bottom: 25px"><div><button type="button" class="btn btn-light" value="{{question.source_3_id.id}}">{{question.source_3_id}}</button></div></div>-->
 <!--    <div class="col" style="margin-bottom: 25px"><div><button type="button" class="btn btn-light" value="{{question.source_4_id.id}}">{{question.source_4_id}}</button></div></div>-->
+    <div id="progressbar_container"></div>
     <div id="message"></div>
 </div>
 
