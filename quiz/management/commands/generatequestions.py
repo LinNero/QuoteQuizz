@@ -16,33 +16,44 @@ class Command(BaseCommand):
             if not category.sources.exists():
                 continue
 
-            question_set = category.question_sets.last()
-            if not question_set:
-                question_set = QuestionSet(category_id=category, name="Question Set")
-                question_set.save()
+            question_set = self.create_question_set(category)
 
             for source in category.sources.all():
-                quotes = source.quotes.order_by('-rating')[:10]
-                for quote in quotes:
-                    if question_set.questions.count() >= 10:
-                        question_set = QuestionSet(category_id=category, name="Question Set")
-                        question_set.save()
+                self.create_questions_for_source(category, question_set, source)
 
-                    answers = {source.id,
-                               self.get_random_object(category.sources).id,
-                               self.get_random_object(category.sources).id,
-                               self.get_random_object(category.sources).id
-                               }
+    def create_questions_for_source(self, category, question_set, source):
+        quotes = source.quotes.order_by('-rating')[:10]
+        for quote in quotes:
+            self.create_question_for_quote(category, question_set, quote, source)
 
-                    while len(answers) < 4:  # цикл для несовпадения ответов
-                        answers.add(self.get_random_object(category.sources).id)
-                    answers = list(answers)
+    def create_question_set(self, category):
+        question_set = category.question_sets.last()
+        if not question_set:
+            question_set = QuestionSet(category_id=category, name="Question Set")
+            question_set.save()
+        return question_set
 
-                    q = Question(quote_id=quote,
-                                 question_set_id=question_set,
-                                 source_1_id=category.sources.get(pk=answers[0]),
-                                 source_2_id=category.sources.get(pk=answers[1]),
-                                 source_3_id=category.sources.get(pk=answers[2]),
-                                 source_4_id=category.sources.get(pk=answers[3]),
-                                 )
-                    q.save()
+    def create_question_for_quote(self, category, question_set, quote, source):
+        if question_set.questions.count() >= 10:
+            question_set = QuestionSet(category_id=category, name="Question Set")
+            question_set.save()
+        answers = self.create_answers_list_for_question(category, source)
+        q = Question(quote_id=quote,
+                     question_set_id=question_set,
+                     source_1_id=category.sources.get(pk=answers[0]),
+                     source_2_id=category.sources.get(pk=answers[1]),
+                     source_3_id=category.sources.get(pk=answers[2]),
+                     source_4_id=category.sources.get(pk=answers[3]),
+                     )
+        q.save()
+
+    def create_answers_list_for_question(self, category, source):
+        answers = {source.id,
+                   self.get_random_object(category.sources).id,
+                   self.get_random_object(category.sources).id,
+                   self.get_random_object(category.sources).id
+                   }
+        while len(answers) < 4:  # цикл для несовпадения ответов
+            answers.add(self.get_random_object(category.sources).id)
+        answers = list(answers)
+        return answers
