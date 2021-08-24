@@ -26,7 +26,14 @@
     <div style="margin-bottom: 50px">{{question}}</div>
     <br>
     <script>
+        question_id = {{question.id}}
         correct_answer = {{question.quote_id.source.id}}
+        {% if user.id %}
+            current_user_id = {{user.id}}
+        {% else %}
+            current_user_id = null
+        {% endif %}
+        chosen_answer = null
     </script>
     {% for source in question.get_randomized_source_list %}
         <div class="col" style="margin-bottom: 25px"><div><button type="button" class="btn btn-light" value="{{source.id}}">{{source}}</button></div></div>

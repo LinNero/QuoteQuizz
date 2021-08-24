@@ -1,5 +1,6 @@
 from django.db import models
 import random
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -44,6 +45,7 @@ class Question(models.Model):
     source_3_id = models.ForeignKey(Source, on_delete=models.CASCADE, related_name='source_3')
     source_4_id = models.ForeignKey(Source, on_delete=models.CASCADE, related_name='source_4')
     question_set_id = models.ForeignKey(QuestionSet, on_delete=models.CASCADE, related_name='questions')
+    users = models.ManyToManyField(User, through='UsersQuestions')
 
     def __str__(self):
         return self.quote_id.text[:500]
@@ -52,4 +54,10 @@ class Question(models.Model):
         result = [self.source_1_id, self.source_2_id, self.source_3_id, self.source_4_id]
         random.shuffle(result)
         return result
+
+
+class UsersQuestions(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    is_correct = models.BooleanField()
 

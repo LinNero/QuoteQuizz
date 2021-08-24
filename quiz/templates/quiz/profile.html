@@ -1,0 +1,8 @@
+{% extends "quiz/header.html" %}
+
+{% block content %}
+<div>Статистика</div>
+{% for k in category_stats %}
+<div>{{category_stats}}</div>
+{% endfor %}
+{% endblock %}

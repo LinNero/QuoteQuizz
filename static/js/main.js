@@ -10,6 +10,53 @@ $( document ).ready(function() {
         $(list).removeClass("btn-light");
     }
 
+    function sendAnswer(is_correct) {
+        if (!current_user_id) {
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            data: {user_id: current_user_id, question_id: question_id, is_correct: is_correct},
+            url: "/quiz/answer",
+            success: function (response) {
+                console.log("SAVED")
+                console.log(response.saved)
+            },
+            error: function (response) {
+                console.log(response)
+            }
+        });
+    }
+
+    function setAjaxCSRFToken(){
+        $.ajaxSetup({
+             beforeSend: function(xhr, settings) {
+                 function getCookie(name) {
+                     var cookieValue = null;
+                     if (document.cookie && document.cookie != '') {
+                         var cookies = document.cookie.split(';');
+                         for (var i = 0; i < cookies.length; i++) {
+                             var cookie = jQuery.trim(cookies[i]);
+                             // Does this cookie string begin with the name we want?
+                             if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                 break;
+                             }
+                         }
+                     }
+                     return cookieValue;
+                 }
+                 if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                     // Only send the token to relative URLs i.e. locally.
+                     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                 }
+             }
+        });
+    }
+
+    setAjaxCSRFToken()
+
     $( "button" ).click(function() {
         chosen_answer = $(this).prop("value");
 
@@ -55,6 +102,7 @@ $( document ).ready(function() {
           circle.setText("<a class='nexthref' href='./next'>Дальше</a>");
           showCorrectAnswer()
           removeBindings()
+          sendAnswer(chosen_answer == correct_answer);
           circle.stop();
         }
         else {
