@@ -23,6 +23,7 @@ class Source(models.Model):
 
 
 class Quote(models.Model):
+    #rating = models.IntegerField()
     text = models.TextField()
     source = models.ForeignKey(Source, on_delete=models.CASCADE, related_name="quotes")
     rating = models.IntegerField()

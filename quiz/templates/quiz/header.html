@@ -7,7 +7,7 @@
     <script src="{% static 'js/main.js' %}"></script>
     <script src="{% static 'js/progressbar.js' %}"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="container">
@@ -19,31 +19,31 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
+
               {% if user.is_authenticated %}
 
               <li class="nav-item">
-                <a class="nav-link" href="/quiz/logout">Logout</a>
+                <a class="nav-link" href="/quiz/logout">Выйти</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/quiz/profile">Profile {{user.username}}</a>
+                <a class="nav-link" href="/quiz/profile">Профиль {{user.username}}</a>
               </li>
 
               {% else %}
 
               <li class="nav-item">
-                <a class="nav-link" href="/quiz/login">Login</a>
+                <a class="nav-link" href="/quiz/login">Войти</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/quiz/register">Register</a>
+                <a class="nav-link" href="/quiz/register">Регистрация</a>
               </li>
 
               {% endif %}
             </ul>
           </div>
         </nav>
-          {% block content %}
-          {% endblock %}
+        {% block content %}
+        {% endblock %}
       </div>
-
   </body>
 </html>

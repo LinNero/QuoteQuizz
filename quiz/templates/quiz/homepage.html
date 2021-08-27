@@ -1,6 +1,8 @@
 {% extends "quiz/header.html" %}
 
 {% block content %}
+    {% include "quiz/messages.html" %}
+
     <h1 style="padding-top: 15px">Выберите категорию цитат для игры.</h1>
     <div class="row">
     {% for category in categories  %}

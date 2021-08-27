@@ -7,6 +7,8 @@ import time
 
 class Command(BaseCommand):
     help = 'Start the parser'
+    BOOK_PARSER_PAGES = ['/books']
+    MEDIA_PARSER_PAGES = ['/movie', '/series', '/anime', '/cartoon', '/game', '/tv']
 
     def handle(self, *args, **options):
         self.parse_categorylist()
@@ -30,38 +32,68 @@ class Command(BaseCommand):
             c.save()
             print(c)
 
-
-
     def parse_sourcelist(self):
-        if Source.objects.exists():
-            print('Источники уже существуют')
-            return
+        # if Source.objects.exists():
+        #     print('Источники уже существуют')
+        #     return
 
         for category in Category.objects.all():
+            if category.sources.exists():
+                continue
+
             url = 'https://citaty.info' + category.url
             response = urllib.request.urlopen(url)
             html_doc = response.read()
             soup = BeautifulSoup(html_doc, 'html.parser')
 
-            div_list = soup.find_all("div", class_=["field-item field-name-field-books-ref odd",
-                                                    "field-item field-name-field-books-ref even"])
-            for div in div_list:
-                link = div.find('a')
-                source_name = link.get_text()
-                source_href = link.get('href')
-                source = Source(name=source_name, url=source_href, category_id=category)
-                source.save()
-                print(source)
+            if category.url in self.BOOK_PARSER_PAGES:
+                pass
+                # self.book_parser(category, soup)
+            elif category.url in self.MEDIA_PARSER_PAGES:
+                self.media_parser(category, soup)
+            else:
+                continue
+
+    def book_parser(self, category, soup):
+        print(f"BOOK_PARSER_PAGES: {category.url}")
+
+        div_list = soup.find_all("div", class_=["field-item field-name-field-books-ref odd",
+                                                "field-item field-name-field-books-ref even"])
+        for div in div_list:
+            link = div.find('a')
+            source_name = link.get_text()
+            source_href = link.get('href')
+            source = Source(name=source_name, url=source_href, category_id=category)
+            source.save()
+            print(source)
             break
 
 
+    def media_parser(self, category, soup):
+        print(f"MEDIA_PARSER_PAGES: {category.url}")
+
+        div_list = soup.find_all("div", class_=["term-name field-type-entityreference"])
+        for div in div_list:
+            link = div.find('a')
+            source_name = link.get_text()
+            source_href = link.get('href')
+            source = Source(name=source_name, url=source_href, category_id=category)
+            source.save()
+            print(source)
+
 
     def parse_quotelist(self):
-        if Quote.objects.exists():
-            print('Цитаты уже существуют')
-            return
+        # if Quote.objects.exists():
+        #     print('Цитаты уже существуют')
+        #     return
 
         for source in Source.objects.all():
+            if source.category_id.url == '/book':
+                continue
+            if source.quotes.exists():
+                continue
+
+            print(f"PARSING {source.url}")
             response = urllib.request.urlopen(source.url)
             html_doc = response.read()
 
@@ -73,6 +105,7 @@ class Command(BaseCommand):
                 quote_div = article.find("div", {"class": "field-item even last"})
                 paragraph = quote_div.find('p')
                 text = paragraph.get_text()
+                ###text = text[text.find(":")+0,]
                 print(text)
 
                 rating_div = article.find("div", {"class": "rating__value__digits"})
@@ -87,6 +120,8 @@ class Command(BaseCommand):
 
             q_count = Quote.objects.count()
             print(f"Quotes count: {q_count}")
-            if Quote.objects.count() >= 100:
+            if Quote.objects.count() >= 1500:
                 break
             # break
+
+

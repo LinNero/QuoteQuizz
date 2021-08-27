@@ -115,5 +115,5 @@ $( document ).ready(function() {
     bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
     bar.text.style.fontSize = '2rem';
 
-    bar.animate(1.0, {duration: 10000});
+    bar.animate(1.0, {duration: 20000});
 });
