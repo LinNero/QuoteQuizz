@@ -33,10 +33,6 @@ class Command(BaseCommand):
             print(c)
 
     def parse_sourcelist(self):
-        # if Source.objects.exists():
-        #     print('Источники уже существуют')
-        #     return
-
         for category in Category.objects.all():
             if category.sources.exists():
                 continue
@@ -86,13 +82,7 @@ class Command(BaseCommand):
 
 
     def parse_quotelist(self):
-        # if Quote.objects.exists():
-        #     print('Цитаты уже существуют')
-        #     return
-
         for source in Source.objects.all():
-            # if source.category_id.url == '/book':
-            #     continue
             if source.quotes.exists():
                 continue
 
@@ -107,6 +97,8 @@ class Command(BaseCommand):
 
                 quote_div = article.find("div", {"class": "field-item even last"})
                 paragraph = quote_div.find('p')
+                if not paragraph:
+                    continue
                 text = paragraph.get_text()
                 print(text)
 
@@ -124,6 +116,6 @@ class Command(BaseCommand):
             print(f"Quotes count: {q_count}")
             if Quote.objects.count() >= 10000:
                 break
-            # break
+
 
 

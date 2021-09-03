@@ -12,6 +12,5 @@ urlpatterns = [
     path("answer", views.answer, name="answer"),
     path("answers", views.answers, name="answers"),
     path("delete_answers", views.delete_answers, name="delete_answers"),
-    path("category/<int:id>", views.show_category, name="category"),
     path("category/<int:id>/next", views.category_next_question, name="category_next_question"),
 ]

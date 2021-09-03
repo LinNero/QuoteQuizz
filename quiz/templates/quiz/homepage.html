@@ -3,12 +3,12 @@
 {% block content %}
     {% include "quiz/messages.html" %}
 
-    <h1 style="padding-top: 15px">Выберите категорию цитат для игры.</h1>
+    <h1 style="padding-top: 15px; color: #4a476a;">Добро пожаловать! Проверьте свои знания цитат прямо сейчас.</h1>
     <div class="row">
     {% for category in categories  %}
         <div class="col-sm">
 
-            <div class="card" style="width: 18rem; margin-top: 25px;">
+            <div class="card" style="width: 24rem; margin-top: 25px;">
                 {% if category.image %}
                     <a href="/quiz/category/{{category.id}}/next"><img class="card-img-top" src="{{category.image.url}}" alt="Категория"></a>
                 {% else %}

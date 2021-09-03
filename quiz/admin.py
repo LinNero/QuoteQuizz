@@ -6,10 +6,15 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'url']
 
 
+class QuoteInline(admin.TabularInline):
+    model = Quote
+
+
 class SourceAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'url', 'category_id']
     list_filter = ['category_id']
     search_fields = ['name']
+    inlines = [QuoteInline]
 
 
 class QuoteAdmin(admin.ModelAdmin):

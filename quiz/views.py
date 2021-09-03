@@ -58,11 +58,6 @@ def logout_request(request):
     return redirect("quiz:homepage")
 
 
-def show_category(request, id):
-    question_sets = QuestionSet.objects.filter(category_id=id)
-    return render(request=request, template_name="quiz/category.html", context={"question_sets": question_sets, "category_id": id})
-
-
 def category_next_question(request, id): # path("category/<int:id>/next"
     category = Category.objects.get(pk=id) # /book
     question_list = []

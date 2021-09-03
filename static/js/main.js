@@ -8,6 +8,7 @@ $( document ).ready(function() {
         var list = $("[value='" + correct_answer + "']");
         $(list).addClass("btn-success");
         $(list).removeClass("btn-light");
+        $(list).css("background-color", "")
     }
 
     function sendAnswer(is_correct) {
@@ -65,6 +66,7 @@ $( document ).ready(function() {
         } else {
             $(this).addClass("btn-danger");
             $(this).removeClass("btn-light");
+            $(this).css("background-color", "")
 
             showCorrectAnswer()
         }
@@ -87,8 +89,8 @@ $( document ).ready(function() {
       text: {
         autoStyleContainer: false
       },
-      from: { color: '#aaa', width: 1 },
-      to: { color: '#333', width: 4 },
+      from: { color: '#d195ff', width: 1 },
+      to: { color: '#66269a', width: 4 },
       // Set default step function for all animate calls
       step: function(state, circle) {
         circle.path.setAttribute('stroke', state.color);
@@ -99,7 +101,7 @@ $( document ).ready(function() {
           circle.setText('');
         }
         else if (value === 1) {
-          circle.setText("<a class='nexthref' href='./next'>Дальше</a>");
+          circle.setText("<a class='nexthref' href='./next'>Далее</a>");
           showCorrectAnswer()
           removeBindings()
           sendAnswer(chosen_answer == correct_answer);
@@ -113,6 +115,7 @@ $( document ).ready(function() {
     });
 
     bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
+    bar.text.style.color = '#d195ff';
     bar.text.style.fontSize = '2rem';
 
     bar.animate(1.0, {duration: 20000});

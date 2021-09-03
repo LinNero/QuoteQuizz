@@ -12,37 +12,54 @@
       width: 200px;
       height: 200px;
       position: relative;
-      font-size: 10px;
+      font-size: 8px;
     }
 
     .nexthref {
         color: #000;
         text-decoration: none;
+        font-family: Raleway, Helvetica, sans-serif;
+        font-size: 2rem;
     }
     .nexthref:hover {
         color: #000;
     }
 </style>
+<script>
+    question_id = {{question.id}}
+    correct_answer = {{question.quote_id.source.id}}
+    {% if user.id %}
+        current_user_id = {{user.id}}
+    {% else %}
+        current_user_id = null
+    {% endif %}
+    chosen_answer = null
+</script>
 
-<div style="max-width: 550px; padding-left: 200px">
-    <h1 style="margin-bottom: 50px">Откуда цитата?</h1>
-    <div style="margin-bottom: 50px">{{question}}</div>
-    <br>
-    <script>
-        question_id = {{question.id}}
-        correct_answer = {{question.quote_id.source.id}}
-        {% if user.id %}
-            current_user_id = {{user.id}}
-        {% else %}
-            current_user_id = null
-        {% endif %}
-        chosen_answer = null
-    </script>
-    {% for source in question.get_randomized_source_list %}
-        <div class="col" style="margin-bottom: 25px"><div><button type="button" class="btn btn-light" value="{{source.id}}">{{source}}</button></div></div>
-    {% endfor %}
-    <div id="progressbar_container"></div>
-    <div id="message"></div>
+<div class="container" style="padding-left: 100px; padding-top: 20px; font-family: hurme_no2-webfont, -apple-system, BlinkMacSystemFont, sans-serif;">
+    <div class="row">
+        <div class="col">
+            <h1 style="text-align: center; font-size: 3.5rem; color: #66269a; margin-bottom: 50px; padding-top: 90px;">Откуда цитата?</h1>
+        </div>
+        <div class="col">
+            <div id="progressbar_container"></div>
+        </div>
+    </div>
+    <div class="row">
+       <div class="col" style="font-size: 1.4rem;">
+            <div style="margin-bottom: 50px">{{question}}</div>
+       </div>
+       <div class="col">
+            {% for source in question.get_randomized_source_list %}
+                <div class="col" style="margin-bottom: 25px">
+                    <button style="font-size: 1.4rem; background-color: #f1dcff;" type="button" class="btn btn-light" value="{{source.id}}">
+                        {{source}}
+                    </button>
+                </div>
+            {% endfor %}
+
+       </div>
+    </div>
 </div>
 
 {% endblock %}
