@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Category, Source, QuestionSet, Quote, Question
+from .models import Category, Source, QuestionSet, Quote, Question, UsersQuestions
+
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -32,10 +33,15 @@ class QuestionSetAdmin(admin.ModelAdmin):
     list_filter = ['category_id']
 
 
+class UsersQuestionsAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user',  'is_correct', 'question']
+
+
 # Register your models here.
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Source, SourceAdmin)
 admin.site.register(QuestionSet, QuestionSetAdmin)
 admin.site.register(Quote, QuoteAdmin)
 admin.site.register(Question, QuestionAdmin)
+admin.site.register(UsersQuestions, UsersQuestionsAdmin)
 
