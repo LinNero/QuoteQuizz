@@ -1,6 +1,7 @@
 {% extends "quiz/header.html" %}
 
 {% block content %}
+<div><a class="btn active mt-3 mb-3" style="background-color: #e3f2fd;" href="/quiz/answers" role="button">Посмотреть отвеченные вопросы</a></div>
 <div style="margin-bottom: 25px">Статистика</div>
 {% for key, values in category_stats.items %}
     <div class="row" style="margin-bottom: 15px">
@@ -9,11 +10,12 @@
         </div>
         <div class="col-10" style="padding-top: 7px">
             <div class="progress" >
-              <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">Верно {{values|get_item:'correct_percent'}}% ({{values|get_item:'correct'}})</div>
-              <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">Неверно {{values|get_item:'incorrect_percent'}}% ({{values|get_item:'incorrect'}})</div>
-              <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 40%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">Осталось {{values|get_item:'remains_percent'}}% ({{values|get_item:'remains'}})</div>
+              <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="min-width: 15%; width: {{values|get_item:'correct_percent'|floatformat:0}}%" aria-valuenow="30" aria-valuemin="10" aria-valuemax="100">Верно {{values|get_item:'correct_percent'}}% ({{values|get_item:'correct'}})</div>
+              <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="min-width: 15%; width: {{values|get_item:'incorrect_percent'|floatformat:0}}%" aria-valuenow="30" aria-valuemin="10" aria-valuemax="100">Неверно {{values|get_item:'incorrect_percent'}}% ({{values|get_item:'incorrect'}})</div>
+              <div class="progress-bar progress-bar-striped" role="progressbar" style="min-width: 0%; width: {{values|get_item:'remains_percent'|floatformat:0}}%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">Осталось {{values|get_item:'remains_percent'}}% ({{values|get_item:'remains'}})</div>
             </div>
         </div>
     </div>
 {% endfor %}
+<div><a class="btn btn-danger active mt-3 mb-3" href="/quiz/delete_answers" role="button">Очистить отвеченные вопросы</a></div>
 {% endblock %}

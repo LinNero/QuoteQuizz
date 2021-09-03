@@ -10,13 +10,12 @@
 
             <div class="card" style="width: 18rem; margin-top: 25px;">
                 {% if category.image %}
-                    <a href="/quiz/category/{{category.id}}"><img class="card-img-top" src="{{category.image.url}}" alt="Категория"></a>
+                    <a href="/quiz/category/{{category.id}}/next"><img class="card-img-top" src="{{category.image.url}}" alt="Категория"></a>
                 {% else %}
-                    <a href="/quiz/category/{{category.id}}"><img class="card-img-top" src="https://content.codecademy.com/projects/project_thumbnails/independent-practice/html-css-cheat-sheet.png" alt="Card image cap"></a>
+                    <a href="/quiz/category/{{category.id}}/next"><img class="card-img-top" src="https://content.codecademy.com/projects/project_thumbnails/independent-practice/html-css-cheat-sheet.png" alt="Card image cap"></a>
                 {% endif %}
               <div class="card-body">
                 <h5 class="card-title">{{category.name}}</h5>
-<!--                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
               </div>
             </div>
         </div>

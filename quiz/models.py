@@ -23,13 +23,12 @@ class Source(models.Model):
 
 
 class Quote(models.Model):
-    #rating = models.IntegerField()
     text = models.TextField()
     source = models.ForeignKey(Source, on_delete=models.CASCADE, related_name="quotes")
     rating = models.IntegerField()
 
     def __str__(self):
-        return f"{self.rating}: {self.text}"
+        return self.text
 
 class QuestionSet(models.Model):
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="question_sets")

@@ -2,44 +2,50 @@
 <html>
   <head>
     {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" crossorigin="anonymous"></script>
-    <script src="{% static 'js/main.js' %}"></script>
-    <script src="{% static 'js/progressbar.js' %}"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="container">
       <!--Navbar-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <a class="navbar-brand" href="/quiz">QuoteQuizz</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav mr-auto">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+          <div class="container-fluid">
+            <a class="navbar-brand" style="margin-left: 15px;" href="/quiz">
+              <img src="{% static 'images/logo_transparent_new.png' %}" width="50" height="50" alt="QuoteQuizz">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul class="navbar-nav">
 
-              {% if user.is_authenticated %}
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="/quiz/">Категории</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/quiz/profile">Профиль {{user.username}}</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/quiz/logout">Выйти</a>
+                </li>
 
-              <li class="nav-item">
-                <a class="nav-link" href="/quiz/logout">Выйти</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/quiz/profile">Профиль {{user.username}}</a>
-              </li>
+                {% else %}
 
-              {% else %}
+                <li class="nav-item">
+                  <a class="nav-link" href="/quiz/login">Войти</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/quiz/register">Регистрация</a>
+                </li>
 
-              <li class="nav-item">
-                <a class="nav-link" href="/quiz/login">Войти</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/quiz/register">Регистрация</a>
-              </li>
-
-              {% endif %}
-            </ul>
+                {% endif %}
+              </ul>
+            </div>
           </div>
         </nav>
         {% block content %}

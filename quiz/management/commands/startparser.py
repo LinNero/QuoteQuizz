@@ -7,7 +7,7 @@ import time
 
 class Command(BaseCommand):
     help = 'Start the parser'
-    BOOK_PARSER_PAGES = ['/books']
+    BOOK_PARSER_PAGES = ['/book']
     MEDIA_PARSER_PAGES = ['/movie', '/series', '/anime', '/cartoon', '/game', '/tv']
 
     def handle(self, *args, **options):
@@ -47,8 +47,7 @@ class Command(BaseCommand):
             soup = BeautifulSoup(html_doc, 'html.parser')
 
             if category.url in self.BOOK_PARSER_PAGES:
-                pass
-                # self.book_parser(category, soup)
+                self.book_parser(category, soup)
             elif category.url in self.MEDIA_PARSER_PAGES:
                 self.media_parser(category, soup)
             else:
@@ -57,16 +56,20 @@ class Command(BaseCommand):
     def book_parser(self, category, soup):
         print(f"BOOK_PARSER_PAGES: {category.url}")
 
-        div_list = soup.find_all("div", class_=["field-item field-name-field-books-ref odd",
-                                                "field-item field-name-field-books-ref even"])
-        for div in div_list:
-            link = div.find('a')
-            source_name = link.get_text()
-            source_href = link.get('href')
-            source = Source(name=source_name, url=source_href, category_id=category)
-            source.save()
-            print(source)
-            break
+        author_divs = soup.find_all("div", {"class": "taxonomy-term vocabulary-vocabulary-3"})
+        for author_div in author_divs:
+            author_name_div = author_div.find("div", {"class": "term-name field-type-entityreference"})
+            author_name = author_name_div.find('a').get_text()
+
+            div_list = author_div.find_all("div", class_=["field-item field-name-field-books-ref odd",
+                                                    "field-item field-name-field-books-ref even"])
+            for div in div_list:
+                link = div.find('a')
+                source_name = f"{link.get_text()} ({author_name})"
+                source_href = link.get('href')
+                source = Source(name=source_name, url=source_href, category_id=category)
+                source.save()
+                print(source)
 
 
     def media_parser(self, category, soup):
@@ -88,8 +91,8 @@ class Command(BaseCommand):
         #     return
 
         for source in Source.objects.all():
-            if source.category_id.url == '/book':
-                continue
+            # if source.category_id.url == '/book':
+            #     continue
             if source.quotes.exists():
                 continue
 
@@ -105,7 +108,6 @@ class Command(BaseCommand):
                 quote_div = article.find("div", {"class": "field-item even last"})
                 paragraph = quote_div.find('p')
                 text = paragraph.get_text()
-                ###text = text[text.find(":")+0,]
                 print(text)
 
                 rating_div = article.find("div", {"class": "rating__value__digits"})
@@ -120,7 +122,7 @@ class Command(BaseCommand):
 
             q_count = Quote.objects.count()
             print(f"Quotes count: {q_count}")
-            if Quote.objects.count() >= 1500:
+            if Quote.objects.count() >= 10000:
                 break
             # break
 

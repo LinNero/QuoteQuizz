@@ -1,0 +1,31 @@
+{% extends "quiz/header.html" %}
+
+{% block content %}
+<table class="table">
+  <thead>
+    <tr>
+<!--      <th scope="col">#</th>-->
+      <th scope="col">Источник</th>
+      <th scope="col">Цитата</th>
+      <th scope="col">Правильно отвечено?</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for answer in answer_list %}
+        <tr {% if answer.is_correct %} class="table-light" {% else %} class="table-warning" {% endif %}>
+<!--          <th scope="row">{{answer.id}}</th>-->
+          <td>{{answer.question.quote_id.source}}</td>
+          <td>{{answer.question.quote_id.text}}</td>
+          <td>
+              {% if answer.is_correct %}
+                    да
+              {% else %}
+                    нет
+              {% endif %}
+          </td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

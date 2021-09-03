@@ -10,7 +10,7 @@ from distutils import util
 from django.db.models import Q
 from django.template.defaulttags import register
 
-from .models import Category, QuestionSet, Question, UsersQuestions, Quote
+from .models import Category, QuestionSet, Question, UsersQuestions
 
 
 def homepage(request):
@@ -24,9 +24,10 @@ def register_request(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, "Registration successful.")
+            messages.success(request, "Регистрация прошла успешно.")
             return redirect("quiz:homepage")
-        messages.error(request, "Unsuccessful registration. Invalid information.", extra_tags="danger")
+        messages.error(request, "Неверный ввод информации регситрации.", extra_tags="danger")
+    # если ошибка в POST или GET-запрос, то происходят две след строки
     form = NewUserForm()
     return render(request=request, template_name="quiz/register.html", context={"register_form": form})
 
@@ -40,30 +41,30 @@ def login_request(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                messages.info(request, f"You are now logged in as {username}.")
+                messages.info(request, f"Вы зашли как {username}.")
                 return redirect("quiz:homepage")
             else:
-                messages.error(request, "Invalid username or password.", extra_tags="danger")
+                messages.error(request, "Неверное имя или пароль.", extra_tags="danger")
         else:
-            messages.error(request, "Invalid username or password.", extra_tags="danger")
+            messages.error(request, "Неверное имя или пароль.", extra_tags="danger")
+    # если ошибка в POST или GET-запрос, то происходят две след строки
     form = AuthenticationForm()
     return render(request=request, template_name="quiz/login.html", context={"login_form": form})
 
 
 def logout_request(request):
     logout(request)
-    messages.info(request, "You have successfully logged out.")
+    messages.info(request, "Вы успешно вышли.")
     return redirect("quiz:homepage")
 
 
 def show_category(request, id):
-    # category = Category.objects.filter(id=id)
     question_sets = QuestionSet.objects.filter(category_id=id)
     return render(request=request, template_name="quiz/category.html", context={"question_sets": question_sets, "category_id": id})
 
 
-def category_next_question(request, id):
-    category = Category.objects.get(pk=id)
+def category_next_question(request, id): # path("category/<int:id>/next"
+    category = Category.objects.get(pk=id) # /book
     question_list = []
 
     if request.user.__class__.__name__ == 'AnonymousUser':
@@ -105,7 +106,7 @@ def profile(request):
     return render(request=request, template_name="quiz/profile.html",
                   context={"category_stats": category_stats})
 
-
+# ответы в игре
 def answer(request):
     question = Question.objects.get(pk=request.POST['question_id'])
     boolean_value = bool(distutils.util.strtobool(request.POST['is_correct']))
@@ -114,6 +115,17 @@ def answer(request):
 
     response = {'saved': True}
     return JsonResponse(response)
+
+# список ответов юзера в профиле
+def answers(request):
+    answer_list = UsersQuestions.objects.filter(user=request.user)
+    return render(request=request, template_name="quiz/answers.html",
+                  context={"answer_list": answer_list})
+
+# переделать на пост запрос
+def delete_answers(request):
+    UsersQuestions.objects.filter(user=request.user).delete()
+    return redirect("quiz:homepage")
 
 
 @register.filter
