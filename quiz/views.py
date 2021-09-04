@@ -10,7 +10,7 @@ from distutils import util
 from django.db.models import Q
 from django.template.defaulttags import register
 
-from .models import Category, QuestionSet, Question, UsersQuestions
+from .models import Category, Question, UsersQuestions
 
 
 def homepage(request):
